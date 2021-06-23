@@ -1,0 +1,45 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node-version: [12.x, 14.x]
+    runs-on: ${{ matrix.os }}
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Versions
+        run: |
+          echo Node:
+          node --version
+          echo NPM:
+          npm --version
+      - name: NPM audit
+        continue-on-error: true
+        run: npm audit
+      - name: NPM install (ci)
+        run: npm ci
+      - name: Lint
+        run: npx eslint .
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test -- --verbose --coverage
+      - name: Archive Test Code Coverage Report
+        continue-on-error: true
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Code Coverage Report
+          path: coverage/
