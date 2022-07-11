@@ -5,4 +5,13 @@ div.test1{
     color: white;
     font-family: monospace; 
 }
+
+div.test1:focus {
+    border: 3px solid blue;
+}
+
+div.test1:hover {
+    background-color: white;
+    color: black;
+}
   
