@@ -1,0 +1,17 @@
+div.test1{
+    border-radius: 1px;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    font-family: monospace; 
+}
+
+div.test1:focus {
+    border: 3px solid blue;
+}
+
+div.test1:hover {
+    background-color: white;
+    color: black;
+}
+  
